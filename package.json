@@ -22,5 +22,8 @@
     "react": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0"
+  },
+  "scripts": {
+  	"build": "gulp"
   }
 }
