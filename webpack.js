@@ -6,11 +6,11 @@ module.exports = {
 	entry: './src/index.tsx',
 	target: 'web',
 	output: {
-		filename: 'renderer.js',
+		filename: 'index.js',
 		path: Path.resolve('dist')
 	},
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js']
+		extensions: ['.ts', '.tsx', '.js', '.json']
 	},
 	module: {
 		rules: [

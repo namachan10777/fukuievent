@@ -1,3 +1,5 @@
+import * as Redux from 'redux';
+
 export enum Names {
 	CHANGE_DISPLAY_STYLE = 'JIGJPINTERN_CHANGE_DISPLAY_STYLE',
 	PREV_PAGE = 'JIGJPINTERN_PREV_PAGE',
@@ -5,3 +7,5 @@ export enum Names {
 	CHANGE_FILTER = 'JIGJPINTERN_CHANGE_FILTER',
 	OPEN_CARD = 'JIGJPINTERN_OPEN_CARD'
 }
+
+export type T = Redux.Action
