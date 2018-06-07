@@ -1,9 +1,9 @@
 import { Option, None } from 'monapt';
 
 export enum DisplayStyle {
-	X10,
-	X30,
-	All
+	X10 = 10,
+	X30 = 30,
+	All = Number.MAX_VALUE
 }
 
 export type Pos = {
