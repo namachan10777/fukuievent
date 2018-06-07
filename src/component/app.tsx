@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import CloseIcon from '@material-ui/icons/Close';
 import Input from '@material-ui/core/Input';
 
 import SearchBar from 'material-ui-search-bar';
@@ -35,7 +36,17 @@ const AppComponent = withStyles(styles)<AppProps>(
 	(props: AppProps & WithStyles<ClassNames>) => {
 		const classes = props.classes;
 		if (!props.state.zoom.isEmpty) {
-			return (<div>Full</div>);
+			let appbar = (<AppBar position='static'>
+				<Toolbar>
+					<Input id='search' />
+					<IconButton className={classes.leftButton} color='inherit' aria-label='Close'><CloseIcon/></IconButton>
+				</Toolbar>
+			</AppBar>);
+			return (
+				<div>
+					{appbar}
+				</div>
+			);
 		}
 		else {
 			let appbar = (<AppBar position='static'>
@@ -43,6 +54,9 @@ const AppComponent = withStyles(styles)<AppProps>(
 					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'><LeftIcon/></IconButton>
 					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'><RightIcon/></IconButton>
 					<Input id='search' />
+					<Button color='inherit'>x10</Button>
+					<Button color='inherit'>x30</Button>
+					<Button color='inherit'>All</Button>
 				</Toolbar>
 			</AppBar>);
 			return (
