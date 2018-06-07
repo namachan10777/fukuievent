@@ -61,9 +61,13 @@ const AppComponent = withStyles(styles)<AppProps>(
 					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
 				</Toolbar>
 			</AppBar>);
+			let begin = props.state.page * props.state.dstyle;
+			let end = begin + props.state.dstyle;
+			let cards = props.state.infos.slice(begin, end).map(info => (<EventCard info={info}/>));
 			return (
 				<div>
 					{appbar}
+					{cards}
 				</div>
 			);
 		}
