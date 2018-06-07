@@ -15,11 +15,11 @@ import LeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import CloseIcon from '@material-ui/icons/Close';
 import Input from '@material-ui/core/Input';
 
-import SearchBar from 'material-ui-search-bar';
-
 import * as Store from '../store';
 import * as Action from '../actions';
 import * as AppModule from '../module/app';
+
+import EventCard from './eventCard';
 
 export interface AppProps {
 	state: Store.State;
@@ -46,6 +46,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 			return (
 				<div>
 					{appbar}
+					<EventCard info={props.state.zoom.get()} />
 				</div>
 			);
 		}
