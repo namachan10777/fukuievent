@@ -8,6 +8,14 @@ export interface ChangeDisplayStyleAction extends Redux.Action {
 		style: Store.DisplayStyle;
 	}
 }
+export function changeDisplayStyle (style: Store.DisplayStyle): ChangeDisplayStyleAction {
+	return ({
+		type: Action.Names.CHANGE_DISPLAY_STYLE,
+		payload: {
+			style
+		}
+	});
+}
 
 export interface PrevPageAction extends Redux.Action {
 	type: Action.Names.PREV_PAGE;
@@ -29,4 +37,12 @@ export interface OpenCardAction extends Redux.Action {
 	payload: {
 		eventId: number;
 	}
+}
+
+export function reducer(state: Store.State = Store.initialState, action: Action.T) {
+	switch(action.type) {
+	case Action.Names.CHANGE_DISPLAY_STYLE:
+		console.log(action.payload.style);
+	}
+	return state;
 }

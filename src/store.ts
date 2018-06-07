@@ -1,8 +1,8 @@
 import { Option, None } from 'monapt';
 
 export enum DisplayStyle {
-	Ten,
-	Thirteen,
+	X10,
+	X30,
 	All
 }
 
@@ -64,7 +64,7 @@ export type State = {
 function initializeState (json: any) {
 	let infos = json.map((member: any) => new EventInfo(member));
 	return ({
-		dstyle: DisplayStyle.Ten,
+		dstyle: DisplayStyle.X10,
 		page: 0,
 		search: None,
 		filter: { category: Option([])},

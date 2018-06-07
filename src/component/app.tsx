@@ -23,6 +23,7 @@ import * as AppModule from '../module/app';
 
 export interface AppProps {
 	state: Store.State;
+	changeDStyle: (style: Store.DisplayStyle) => void;
 }
 
 const styles = {
@@ -54,9 +55,9 @@ const AppComponent = withStyles(styles)<AppProps>(
 					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'><LeftIcon/></IconButton>
 					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'><RightIcon/></IconButton>
 					<Input id='search' />
-					<Button color='inherit'>x10</Button>
-					<Button color='inherit'>x30</Button>
-					<Button color='inherit'>All</Button>
+					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
+					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
+					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
 				</Toolbar>
 			</AppBar>);
 			return (
@@ -71,5 +72,8 @@ const AppComponent = withStyles(styles)<AppProps>(
 export default ReactRedux.connect(
 	(state: Store.State) => ({state}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({
+		changeDStyle: (style: Store.DisplayStyle) => {
+			dispatch(AppModule.changeDisplayStyle(style));
+		}
 	})
 )(AppComponent);
