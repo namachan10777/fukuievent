@@ -42,7 +42,10 @@ export interface OpenCardAction extends Redux.Action {
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
 	switch(action.type) {
 	case Action.Names.CHANGE_DISPLAY_STYLE:
-		console.log(action.payload.style);
+		return ({
+			...state,
+			dstyle: action.payload.style
+		});
 	}
 	return state;
 }
