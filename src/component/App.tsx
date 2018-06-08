@@ -19,7 +19,7 @@ import * as Store from '../store';
 import * as Action from '../actions';
 import * as AppModule from '../module/app';
 
-import EventCard from './eventCard';
+import EventCard from './EventCard';
 
 export interface AppProps {
 	state: Store.State;
