@@ -28,7 +28,7 @@ export interface AppProps {
 
 const styles = {
 	leftButton: {},
-	rightButton: {}
+	rightButton: {},
 };
 
 type ClassNames = keyof typeof styles;
@@ -61,13 +61,39 @@ const AppComponent = withStyles(styles)<AppProps>(
 					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
 				</Toolbar>
 			</AppBar>);
+			let row_size, col_size;
+			if (props.state.dstyle == Store.DisplayStyle.X10) {
+				row_size = 2;
+				col_size = 5;
+			}
+			else if (props.state.dstyle = Store.DisplayStyle.X30) {
+				row_size = 5;
+				col_size = 6;
+			}
+			else {
+				col_size = 6;
+				// 9  -> 2
+				// 10 -> 2
+				// 11 -> 3
+				row_size = (props.state.infos.length-1)/6 + 1;
+			}
 			let begin = props.state.page * props.state.dstyle;
-			let end = begin + props.state.dstyle;
-			let cards = props.state.infos.slice(begin, end).map(info => (<EventCard info={info}/>));
+			let tbl = new Array<JSX.Element>(col_size);
+			for (var i = 0; i < col_size; ++i) {
+				let row = new Array<JSX.Element>(row_size);
+				for (var j = 0; j < row_size; ++j) {
+					let idx = begin * props.state.dstyle + row_size * i + j;
+					if (idx < props.state.infos.length)
+						row[j] = (<EventCard info={props.state.infos[idx]} key={idx} />);
+				}
+				tbl[i] = <div className='cards-row' key={i}>{row}</div>;
+			}
 			return (
 				<div>
 					{appbar}
-					{cards}
+					<div className='cards'>
+						{tbl}
+					</div>
 				</div>
 			);
 		}

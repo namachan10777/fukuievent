@@ -13,6 +13,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import CloseIcon from '@material-ui/icons/Close';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Input from '@material-ui/core/Input';
 
 import SearchBar from 'material-ui-search-bar';
@@ -28,13 +31,32 @@ export interface EventCardProps {
 }
 
 const styles = {
+	cardx10: {
+		margin: 3,
+		height: '45vh'
+	},
+	cardx30: {
+		margin: 3,
+		height: '18vh'
+	}
 };
 
 type ClassNames = keyof typeof styles;
 
 const EventCardComponent = withStyles(styles)<EventCardProps>(
 	(props: EventCardProps & WithStyles<ClassNames>) => {
-		return (<div> Hello </div>);
+		const {classes} = props;
+		let cardStyle = props.dstyle == Store.DisplayStyle.X10 ? classes.cardx10 : classes.cardx30;
+		return (
+			<div>
+				<Card className={cardStyle}>
+					<CardContent>
+					</CardContent>
+					<CardActions>
+					</CardActions>
+				</Card>
+			</div>
+		);
 	}
 );
 
