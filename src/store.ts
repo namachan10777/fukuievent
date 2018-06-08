@@ -29,7 +29,7 @@ export class EventInfo {
 	city: string;
 
 	constructor (raw: any) {
-		this.name = raw.name;
+		this.name = raw.event_name;
 		this.category = raw.category;
 		this.description = raw.description;
 		this.schedule_description = raw.description;
