@@ -66,7 +66,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 				row_size = 2;
 				col_size = 5;
 			}
-			else if (props.state.dstyle = Store.DisplayStyle.X30) {
+			else if (props.state.dstyle == Store.DisplayStyle.X30) {
 				row_size = 5;
 				col_size = 6;
 			}
@@ -75,7 +75,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 				// 9  -> 2
 				// 10 -> 2
 				// 11 -> 3
-				row_size = (props.state.infos.length-1)/6 + 1;
+				row_size = Math.ceil(props.state.infos.length/6);
 			}
 			let begin = props.state.page * props.state.dstyle;
 			let tbl = new Array<JSX.Element>(col_size);
