@@ -22,5 +22,6 @@ module.exports = {
 			}
 		]
 	},
-	devtool: 'sourceMap'
+	devtool: 'sourceMap',
+	cache: true
 }
