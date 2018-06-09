@@ -32,26 +32,38 @@ export interface EventCardProps {
 
 const styles = {
 	title: {
-		fontSize: 18
+		fontSize: 18,
+		marginBottom: '2vh'
 	},
 	categoly: {
-		fontSize: 12
+		fontSize: 12,
+		marginBottom: '2vh'
 	},
 	eventPlace: {
-		fontSize: 14
+		fontSize: 14,
+		marginBottom: '2vh'
 	},
 	city: {
-		fontSize: 14
+		fontSize: 15,
+		marginBottom: '2vh'
 	},
 	description: {
-		fontSize: 14
+		fontSize: 14,
+		marginBottom: '2vh'
 	},
 	schedule_description: {
-		fontSize: 14
+		fontSize: 14,
+		marginBottom: '2vh'
 	},
-	openInMap: {},
 	phoneNumber: {
-		color: '#C2185B'
+		color: '#C2185B',
+		marginBottom: '2vh'
+	},
+	openInMap: {
+		marginRight: 0,
+	},
+	openInMapContainer: {
+		marginRight: 0,
 	}
 };
 
@@ -81,16 +93,16 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 					<Typography className={classes.schedule_description}>
 						{props.info.schedule_description}
 					</Typography>
-					<Typography className={classes.eventPlace}>
-						{props.info.event_place}
+					<Typography className={classes.phoneNumber}>
+						{props.info.contact_phone_number}
 					</Typography>
 					<Typography className={classes.city}>
 						{props.info.city}
 					</Typography>
-					<Typography className={classes.phoneNumber}>
-						{props.info.contact_phone_number}
+					<Typography className={classes.eventPlace}>
+						{props.info.event_place}
 					</Typography>
-					<Button color='primary' className={classes.openInMap} href={googleMapUrl}>
+					<Button color='primary'href={googleMapUrl}>
 						地図で開く
 					</Button>
 				</CardContent>
