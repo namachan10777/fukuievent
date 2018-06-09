@@ -3,6 +3,7 @@ import * as Redux from 'redux';
 import * as ReactRedux from 'react-redux';
 import * as PropTypes from 'prop-types';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -21,6 +22,23 @@ import * as AppModule from '../module/app';
 
 import EventCard from './EventCard';
 
+const theme = createMuiTheme ({
+	palette: {
+		primary: {
+			light: '#C8E6C9',
+			main: '#4CAF50',
+			dark: '#388E3C',
+			contrastText: '#FFFFFF'
+		},
+		secondary: {
+			light: '#FFCCBC',
+			main: '#FF5722',
+			dark: '#E64A19',
+			contrastText: '#FFFFFF'
+		}
+	}
+});
+
 export interface AppProps {
 	state: Store.State;
 	changeDStyle: (style: Store.DisplayStyle) => void;
@@ -37,7 +55,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 	(props: AppProps & WithStyles<ClassNames>) => {
 		const classes = props.classes;
 		if (!props.state.zoom.isEmpty) {
-			let appbar = (<AppBar position='static'>
+			let appbar = (<AppBar position='fixed'>
 				<Toolbar>
 					<Input id='search' />
 					<IconButton className={classes.leftButton} color='inherit' aria-label='Close'><CloseIcon/></IconButton>
@@ -51,7 +69,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 			);
 		}
 		else {
-			let appbar = (<AppBar position='static'>
+			let appbar = (<AppBar position='fixed'>
 				<Toolbar>
 					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'><LeftIcon/></IconButton>
 					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'><RightIcon/></IconButton>
@@ -61,40 +79,20 @@ const AppComponent = withStyles(styles)<AppProps>(
 					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
 				</Toolbar>
 			</AppBar>);
-			let row_size, col_size;
-			if (props.state.dstyle == Store.DisplayStyle.X10) {
-				row_size = 2;
-				col_size = 5;
-			}
-			else if (props.state.dstyle == Store.DisplayStyle.X30) {
-				row_size = 5;
-				col_size = 6;
-			}
-			else {
-				col_size = 6;
-				// 9  -> 2
-				// 10 -> 2
-				// 11 -> 3
-				row_size = Math.ceil(props.state.infos.length/6);
-			}
-			let begin = props.state.page * props.state.dstyle;
-			let tbl = new Array<JSX.Element>(col_size);
-			for (var i = 0; i < col_size; ++i) {
-				let row = new Array<JSX.Element>(row_size);
-				for (var j = 0; j < row_size; ++j) {
-					let idx = begin * props.state.dstyle + row_size * i + j;
-					if (idx < props.state.infos.length)
-						row[j] = (<EventCard info={props.state.infos[idx]} key={idx} />);
-				}
-				tbl[i] = <div className='cards-row' key={i}>{row}</div>;
-			}
+			let begin = props.state.dstyle * props.state.page;
+			let end   = begin + props.state.dstyle;
+			let tbl = props
+					.state
+					.infos
+					.slice(begin, end)
+					.map(info => (<EventCard info={info} key={info.id} />));
 			return (
-				<div>
+				<MuiThemeProvider theme={theme}>
 					{appbar}
 					<div className='cards'>
 						{tbl}
 					</div>
-				</div>
+				</MuiThemeProvider>
 			);
 		}
 	}

@@ -27,8 +27,11 @@ export class EventInfo {
 	event_place: string;
 	position: Pos;
 	city: string;
+	id: number;
 
-	constructor (raw: any) {
+	constructor (raw: any, id: number) {
+		this.id = id;
+
 		this.name = raw.event_name;
 		this.category = raw.category;
 		this.description = raw.description;
@@ -62,7 +65,7 @@ export type State = {
 }
 
 function initializeState (json: any) {
-	let infos = json.map((member: any) => new EventInfo(member));
+	let infos = json.map((member: any, i: number) => new EventInfo(member, i));
 	return ({
 		dstyle: DisplayStyle.X10,
 		page: 0,

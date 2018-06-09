@@ -31,32 +31,23 @@ export interface EventCardProps {
 }
 
 const styles = {
-	cardx10: {
-		margin: 3,
-		height: '43vh',
-	
-	},
-	namex10: {
+	title: {
 		fontSize: 18
 	},
-	categoryx10: {
-		fontSize: 14
-	},
-	event_placex10: {
-		fontSize: 14
-	},
-	cityx10: {
+	categoly: {
 		fontSize: 12
 	},
-	cardx30: {
-		margin: 3,
-		height: '16.5vh'
+	eventPlace: {
+		fontSize: 14
 	},
-	namex30: {
-		fontSize: 13
+	city: {
+		fontSize: 14
 	},
-	categoryx30: {
-		fontSize: 10
+	description: {
+		fontSize: 14
+	},
+	schedule_description: {
+		fontSize: 14
 	}
 };
 
@@ -65,46 +56,30 @@ type ClassNames = keyof typeof styles;
 const EventCardComponent = withStyles(styles)<EventCardProps>(
 	(props: EventCardProps & WithStyles<ClassNames>) => {
 		const {classes} = props;
-		let cardStyle = props.dstyle == Store.DisplayStyle.X10 ? classes.cardx10 : classes.cardx30;
-		console.log(props.info);
-		if (props.dstyle == Store.DisplayStyle.X10) {
-			return (
-				<div>
-					<Card className={cardStyle}>
-						<CardContent>
-							<Typography className={classes.namex10}>
-								{props.info.name}
-							</Typography>
-							<Typography className={classes.categoryx10} color='textSecondary'>
-								{props.info.category}
-							</Typography>
-							<Typography className={classes.event_placex10}>
-								{props.info.event_place}
-							</Typography>
-							<Typography className={classes.cityx10}>
-								{props.info.city}
-							</Typography>
-						</CardContent>
-					</Card>
-				</div>
-			);
-		}
-		else {
-			return (
-				<div>
-					<Card className={cardStyle}>
-						<CardContent>
-							<Typography className={classes.namex30}>
-								{props.info.name}
-							</Typography>
-							<Typography className={classes.categoryx30} color='textSecondary'>
-								{props.info.category}
-							</Typography>
-						</CardContent>
-					</Card>
-				</div>
-			);		
-		}
+		return (
+			<Card className='card'>
+				<CardContent>
+					<Typography className={classes.title}>
+						{props.info.name}
+					</Typography>
+					<Typography className={classes.categoly} color='textSecondary'>
+						{props.info.category}
+					</Typography>
+					<Typography className={classes.description}>
+						{props.info.description}
+					</Typography>
+					<Typography className={classes.schedule_description}>
+						{props.info.schedule_description}
+					</Typography>
+					<Typography className={classes.eventPlace}>
+						{props.info.event_place}
+					</Typography>
+					<Typography className={classes.city}>
+						{props.info.city}
+					</Typography>
+				</CardContent>
+			</Card>
+		);
 	}
 );
 
