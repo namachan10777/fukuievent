@@ -26,7 +26,6 @@ import * as AppModule from '../module/app';
 
 export interface EventCardProps {
 	dstyle: Store.DisplayStyle;
-	isZoom: boolean;
 	info: Store.EventInfo;
 }
 
@@ -114,7 +113,6 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 export default ReactRedux.connect(
 	(state: Store.State) => ({
 		dstyle: state.dstyle, 
-		isZoom: !state.zoom.isEmpty
 	}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({})
 )(EventCardComponent);

@@ -60,7 +60,6 @@ export type State = {
 	page: number,
 	search: Option<string>,
 	filter: Filter,
-	zoom: Option<EventInfo>,
 	infos: EventInfo[],
 }
 
@@ -71,7 +70,6 @@ function initializeState (json: any) {
 		page: 0,
 		search: None,
 		filter: { category: Option([])},
-		zoom: None,
 		infos
 	});
 }

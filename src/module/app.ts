@@ -39,13 +39,6 @@ export interface ChangeFilterAction extends Redux.Action {
 	}
 }
 
-export interface OpenCardAction extends Redux.Action {
-	type: Action.Names.OPEN_CARD;
-	payload: {
-		eventId: number;
-	}
-}
-
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
 	switch(action.type) {
 	case Action.Names.CHANGE_DISPLAY_STYLE:

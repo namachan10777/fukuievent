@@ -6,7 +6,6 @@ export enum Names {
 	PREV_PAGE = 'JIGJPINTERN_PREV_PAGE',
 	BACK_PAGE = 'JIGJPINTERN_BACK_PAGE',
 	CHANGE_FILTER = 'JIGJPINTERN_CHANGE_FILTER',
-	OPEN_CARD = 'JIGJPINTERN_OPEN_CARD'
 }
 
 export type T =
@@ -14,5 +13,4 @@ export type T =
 	| AppModule.PrevPageAction
 	| AppModule.BackPageAction
 	| AppModule.ChangeFilterAction
-	| AppModule.OpenCardAction
 

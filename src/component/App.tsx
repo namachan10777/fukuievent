@@ -56,49 +56,34 @@ type ClassNames = keyof typeof styles;
 const AppComponent = withStyles(styles)<AppProps>(
 	(props: AppProps & WithStyles<ClassNames>) => {
 		const classes = props.classes;
-		if (!props.state.zoom.isEmpty) {
-			let appbar = (<AppBar position='fixed'>
-				<Toolbar>
-					<Input id='search' />
-					<IconButton className={classes.leftButton} color='inherit' aria-label='Close'><CloseIcon/></IconButton>
-				</Toolbar>
-			</AppBar>);
-			return (
-				<div>
-					{appbar}
-					<EventCard info={props.state.zoom.get()} />
+
+		let appbar = (<AppBar position='fixed'>
+			<Toolbar>
+				<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'
+					onClick={() => props.backPage()}><LeftIcon/></IconButton>
+				<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'
+					onClick={() => props.prevPage()}><RightIcon/></IconButton>
+				<Input id='search' />
+				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
+				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
+				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
+			</Toolbar>
+		</AppBar>);
+		let begin = props.state.dstyle * props.state.page;
+		let end   = begin + props.state.dstyle;
+		let tbl = props
+				.state
+				.infos
+				.slice(begin, end)
+				.map(info => (<EventCard info={info} key={info.id} />));
+		return (
+			<MuiThemeProvider theme={theme}>
+				{appbar}
+				<div className='cards'>
+					{tbl}
 				</div>
-			);
-		}
-		else {
-			let appbar = (<AppBar position='fixed'>
-				<Toolbar>
-					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'
-						onClick={() => props.backPage()}><LeftIcon/></IconButton>
-					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'
-						onClick={() => props.prevPage()}><RightIcon/></IconButton>
-					<Input id='search' />
-					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
-					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
-					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
-				</Toolbar>
-			</AppBar>);
-			let begin = props.state.dstyle * props.state.page;
-			let end   = begin + props.state.dstyle;
-			let tbl = props
-					.state
-					.infos
-					.slice(begin, end)
-					.map(info => (<EventCard info={info} key={info.id} />));
-			return (
-				<MuiThemeProvider theme={theme}>
-					{appbar}
-					<div className='cards'>
-						{tbl}
-					</div>
-				</MuiThemeProvider>
-			);
-		}
+			</MuiThemeProvider>
+		);
 	}
 );
 
