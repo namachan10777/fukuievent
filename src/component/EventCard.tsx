@@ -48,7 +48,8 @@ const styles = {
 	},
 	schedule_description: {
 		fontSize: 14
-	}
+	},
+	openInMap: {}
 };
 
 type ClassNames = keyof typeof styles;
@@ -56,6 +57,12 @@ type ClassNames = keyof typeof styles;
 const EventCardComponent = withStyles(styles)<EventCardProps>(
 	(props: EventCardProps & WithStyles<ClassNames>) => {
 		const {classes} = props;
+		let googleMapUrl =
+			'https://maps.google.co.jp/maps?q='
+			+ props.info.event_place
+			//+ props.info.position.latitude
+			//+ ','
+			//+ props.info.position.longitude;
 		return (
 			<Card className='card'>
 				<CardContent>
@@ -77,6 +84,9 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 					<Typography className={classes.city}>
 						{props.info.city}
 					</Typography>
+					<Button color='primary' className={classes.openInMap} href={googleMapUrl}>
+						地図で開く
+					</Button>
 				</CardContent>
 			</Card>
 		);
