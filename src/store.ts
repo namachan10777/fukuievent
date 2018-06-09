@@ -52,10 +52,11 @@ export class EventInfo {
 }
 
 export type Filter = {
-	category: Option<string[]>;
+	category: Option<string>;
 }
 
 export type State = {
+	dialogOpen: boolean,
 	dstyle: DisplayStyle,
 	page: number,
 	search: Option<string>,
@@ -66,10 +67,11 @@ export type State = {
 function initializeState (json: any) {
 	let infos = json.map((member: any, i: number) => new EventInfo(member, i));
 	return ({
+		dialogOpen: false,
 		dstyle: DisplayStyle.X10,
 		page: 0,
 		search: None,
-		filter: { category: Option([])},
+		filter: { category: None},
 		infos
 	});
 }

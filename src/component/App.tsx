@@ -21,6 +21,7 @@ import * as Action from '../actions';
 import * as AppModule from '../module/app';
 
 import EventCard from './EventCard';
+import FilterDialog from './Filter';
 
 const theme = createMuiTheme ({
 	palette: {
@@ -44,6 +45,7 @@ export interface AppProps {
 	changeDStyle: (style: Store.DisplayStyle) => void;
 	prevPage: () => void;
 	backPage: () => void;
+	changeFilter: (filter: Store.Filter, open: boolean) => void;
 }
 
 const styles = {
@@ -67,6 +69,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
+				<Button color='inherit' onClick={() => props.changeFilter(props.state.filter, true)}>絞り込み</Button>
 			</Toolbar>
 		</AppBar>);
 		let begin = props.state.dstyle * props.state.page;
@@ -79,6 +82,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 		return (
 			<MuiThemeProvider theme={theme}>
 				{appbar}
+				<FilterDialog/>
 				<div className='cards'>
 					{tbl}
 				</div>
@@ -98,6 +102,9 @@ export default ReactRedux.connect(
 		},
 		backPage: () => {
 			dispatch(AppModule.backPage());
+		},
+		changeFilter: (filter: Store.Filter, open: boolean) => {
+			dispatch(AppModule.changeFilter(filter, open));
 		}
 	})
 )(AppComponent);
