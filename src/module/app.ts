@@ -1,6 +1,7 @@
 import * as Redux from 'redux';
 import * as Action from '../actions';
 import * as Store from '../store';
+import * as Util from '../util';
 
 export interface ChangeDisplayStyleAction extends Redux.Action {
 	type: Action.Names.CHANGE_DISPLAY_STYLE;
@@ -48,12 +49,16 @@ export interface OpenCardAction extends Redux.Action {
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
 	switch(action.type) {
 	case Action.Names.CHANGE_DISPLAY_STYLE:
-		return ({
-			...state,
-			dstyle: action.payload.style
-		});
+		if (state.dstyle != action.payload.style) {
+			return ({
+				...state,
+				dstyle: action.payload.style,
+				page: 0
+			});
+		}
+		return state;
 	case Action.Names.PREV_PAGE:
-		if (state.page < Math.ceil((state.infos.length-1)/state.dstyle)) {
+		if (state.page < Util.calcTotalPage(state.infos.length, state.dstyle)) {
 			return ({
 				...state,
 				page: state.page+1
