@@ -64,8 +64,16 @@ export type State = {
 	infos: EventInfo[],
 }
 
+function enumerateCategoly (infos: EventInfo[]) {
+	return infos
+		.map(info => info.category)
+		.filter((x, i, self) => self.indexOf(x) === i);
+}
+
+const json_file = JSON.parse(require('raw-loader!../data/fukui-event.txt'));
+const infos = json_file.map((member: any, i: number) => new EventInfo(member, i));
+
 function initializeState (json: any) {
-	let infos = json.map((member: any, i: number) => new EventInfo(member, i));
 	return ({
 		dialogOpen: false,
 		dstyle: DisplayStyle.X10,
@@ -76,6 +84,5 @@ function initializeState (json: any) {
 	});
 }
 
-const json_file = JSON.parse(require('raw-loader!../data/fukui-event.txt'));
-
 export const initialState = initializeState(json_file);
+export const categoryEntries = enumerateCategoly(infos);

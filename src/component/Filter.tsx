@@ -6,8 +6,8 @@ import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
@@ -17,6 +17,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+
+import { Option, None } from 'monapt';
 
 import * as Store from '../store';
 import * as Action from '../actions';
@@ -28,21 +30,87 @@ interface FilterDialogProps {
 	onClose: (filter: Store.Filter, open: boolean) => void;
 }
 
-class FilterDialogComponent extends React.Component<FilterDialogProps> {
-	handleClose() {
+const styles = ({
+	container: {
+		display: 'flex',
+		//flexWrap: 'wrap'
+	},
+	formControl: {
+		margin: 3,
+		minWidth: 120
+	}
+});
+
+type ClassNames = keyof typeof styles;
+
+
+class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyles<ClassNames>> {
+	state: {
+		value: string;
+		category: string;
+	}
+	constructor(props: FilterDialogProps & WithStyles<ClassNames>) {
+		super(props);
+		let category = props.filter.category.match({
+			Some: x => x,
+			None: () => ''
+		});
+		this.state = {value: '', category};
+	}
+	generateFilter() {
+		let category = this.state.category === '' ? None : Option(this.state.category);
+		return {
+			...this.props.filter,
+			category
+		};
+	}
+	handleOk() {
+		this.props.onClose(this.generateFilter(), false);
+	}
+	handleCancel() {
 		this.props.onClose(this.props.filter, false);
+	}
+	genChangeHandler(name: string) {
+		switch(name) {
+		case 'category':
+			return (e: any) => this.setState({category: e.target.value});
+		}
+		return (e: any) => {};
 	}
 	render() {
 		const {onClose, filter, open, ...other} = this.props;
+		const classes = this.props.classes;
+		let menuItems = Store
+			.categoryEntries
+			.map(category => (<MenuItem value={category}>{category}</MenuItem>));
 		return (
 			<Dialog
 				open={open}
-				onClose={() => this.handleClose()}
-				aria-labelledby='filter'
-				{...other}>
-				<DialogTitle id='filter-dialog-title'>
+				onClose={() => this.handleCancel()}
+				disableBackdropClick
+				disableEscapeKeyDown
+				>
+				<DialogTitle>
 					絞り込み
 				</DialogTitle>
+				<DialogContent>
+					<form className={classes.container}>
+						<FormControl className={classes.formControl}>
+							<InputLabel htmlFor='category'>カテゴリ</InputLabel>
+							<Select
+								value={this.state.category}
+								onChange={this.genChangeHandler('category')}
+								input={<Input id='category' />}>
+								<MenuItem value=''><em>全て</em></MenuItem>
+								{menuItems}
+							</Select>
+						</FormControl>
+					</form>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => this.handleCancel()} color='primary'>Cancel</Button>
+					<Button onClick={() => this.handleOk()} color='primary'>Ok</Button>
+				</DialogActions>
 			</Dialog>
 		);
 	}
@@ -58,4 +126,4 @@ export default ReactRedux.connect(
 			dispatch(AppModule.changeFilter(filter, open));
 		}
 	})
-)(FilterDialogComponent);
+)(withStyles(styles)(FilterDialogComponent));
