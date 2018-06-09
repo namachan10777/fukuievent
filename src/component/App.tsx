@@ -42,6 +42,8 @@ const theme = createMuiTheme ({
 export interface AppProps {
 	state: Store.State;
 	changeDStyle: (style: Store.DisplayStyle) => void;
+	prevPage: () => void;
+	backPage: () => void;
 }
 
 const styles = {
@@ -71,8 +73,10 @@ const AppComponent = withStyles(styles)<AppProps>(
 		else {
 			let appbar = (<AppBar position='fixed'>
 				<Toolbar>
-					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'><LeftIcon/></IconButton>
-					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'><RightIcon/></IconButton>
+					<IconButton className={classes.leftButton} color='inherit' aria-label='Menu'
+						onClick={() => props.backPage()}><LeftIcon/></IconButton>
+					<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'
+						onClick={() => props.prevPage()}><RightIcon/></IconButton>
 					<Input id='search' />
 					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
 					<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
@@ -103,6 +107,12 @@ export default ReactRedux.connect(
 	(dispatch: Redux.Dispatch<Action.T>) => ({
 		changeDStyle: (style: Store.DisplayStyle) => {
 			dispatch(AppModule.changeDisplayStyle(style));
+		},
+		prevPage: () => {
+			dispatch(AppModule.prevPage());
+		},
+		backPage: () => {
+			dispatch(AppModule.backPage());
 		}
 	})
 )(AppComponent);

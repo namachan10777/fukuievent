@@ -20,9 +20,15 @@ export function changeDisplayStyle (style: Store.DisplayStyle): ChangeDisplaySty
 export interface PrevPageAction extends Redux.Action {
 	type: Action.Names.PREV_PAGE;
 }
+export function prevPage(): PrevPageAction {
+	return {type: Action.Names.PREV_PAGE};
+}
 
 export interface BackPageAction extends Redux.Action {
 	type: Action.Names.BACK_PAGE;
+}
+export function backPage(): BackPageAction {
+	return {type: Action.Names.BACK_PAGE};
 }
 
 export interface ChangeFilterAction extends Redux.Action {
@@ -46,6 +52,22 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 			...state,
 			dstyle: action.payload.style
 		});
+	case Action.Names.PREV_PAGE:
+		if (state.page < Math.ceil((state.infos.length-1)/state.dstyle)) {
+			return ({
+				...state,
+				page: state.page+1
+			});
+		}
+		return state;
+	case Action.Names.BACK_PAGE:
+		if (state.page > 0) {
+			return ({
+				...state,
+				page: state.page-1
+			});
+		}
+		return 	state;
 	}
 	return state;
 }
