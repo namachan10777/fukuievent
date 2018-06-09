@@ -23,7 +23,7 @@ export class EventInfo {
 	description: string;
 	schedule_description: string;
 	contact: string;
-	contact_phone_number: number;
+	contact_phone_number: string;
 	event_place: string;
 	position: Pos;
 	city: string;
@@ -37,7 +37,7 @@ export class EventInfo {
 		this.description = raw.description;
 		this.schedule_description = raw.description;
 		this.contact = raw.contact;
-		this.contact_phone_number = raw.contact_phone_number.split('-').join();
+		this.contact_phone_number = raw.contact_phone_number;
 		this.event_place = raw.event_place;
 		this.city = raw.city;
 

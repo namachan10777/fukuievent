@@ -49,7 +49,10 @@ const styles = {
 	schedule_description: {
 		fontSize: 14
 	},
-	openInMap: {}
+	openInMap: {},
+	phoneNumber: {
+		color: '#C2185B'
+	}
 };
 
 type ClassNames = keyof typeof styles;
@@ -83,6 +86,9 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 					</Typography>
 					<Typography className={classes.city}>
 						{props.info.city}
+					</Typography>
+					<Typography className={classes.phoneNumber}>
+						{props.info.contact_phone_number}
 					</Typography>
 					<Button color='primary' className={classes.openInMap} href={googleMapUrl}>
 						地図で開く
