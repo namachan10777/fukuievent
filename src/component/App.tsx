@@ -48,6 +48,7 @@ export interface AppProps {
 	prevPage: () => void;
 	backPage: () => void;
 	openFilterDialog: () => void;
+	search: (keyword: string) => void;
 }
 
 const styles = {
@@ -67,7 +68,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 					onClick={() => props.backPage()}><LeftIcon/></IconButton>
 				<IconButton className={classes.rightButton} color='inherit' aria-label='Menu'
 					onClick={() => props.prevPage()}><RightIcon/></IconButton>
-				<Input id='search' />
+				<Input id='search' onChange={(e: any) => props.search(e.target.value)}/>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
@@ -110,6 +111,9 @@ export default ReactRedux.connect(
 		},
 		openFilterDialog: () => {
 			dispatch(AppModule.openFilterDialog());
+		},
+		search: (keyword: string) => {
+			dispatch(AppModule.search(keyword));
 		}
 	})
 )(AppComponent);

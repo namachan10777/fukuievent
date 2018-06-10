@@ -59,7 +59,7 @@ export type State = {
 	dialogOpen: boolean,
 	dstyle: DisplayStyle,
 	page: number,
-	search: Option<string>,
+	search: string,
 	filter: Filter,
 	infos: EventInfo[],
 	available: EventInfo[]
@@ -79,7 +79,7 @@ function initializeState (json: any) {
 		dialogOpen: false,
 		dstyle: DisplayStyle.X10,
 		page: 0,
-		search: None,
+		search: '',
 		filter: { category: None},
 		infos: infos,
 		available: infos

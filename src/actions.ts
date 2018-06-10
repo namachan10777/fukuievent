@@ -6,7 +6,8 @@ export enum Names {
 	PREV_PAGE = 'JIGJPINTERN_PREV_PAGE',
 	BACK_PAGE = 'JIGJPINTERN_BACK_PAGE',
 	CHANGE_FILTER = 'JIGJPINTERN_CHANGE_FILTER',
-	OPEN_FILTER_DIALOG = 'JIGJPINTERN_OPEN_FILTER_DIALOG'
+	OPEN_FILTER_DIALOG = 'JIGJPINTERN_OPEN_FILTER_DIALOG',
+	SEARCH = 'JIGJPINTERN_SEARCH'
 }
 
 export type T =
@@ -15,4 +16,5 @@ export type T =
 	| AppModule.BackPageAction
 	| AppModule.ChangeFilterAction
 	| AppModule.OpenFilterDialogAction
+	| AppModule.SearchAction
 

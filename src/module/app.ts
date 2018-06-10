@@ -54,6 +54,21 @@ export function openFilterDialog(): OpenFilterDialogAction {
 	return {type: Action.Names.OPEN_FILTER_DIALOG};
 }
 
+export interface SearchAction extends Redux.Action {
+	type: Action.Names.SEARCH;
+	payload: {
+		keyword: string;
+	}
+}
+export function search(keyword: string): SearchAction {
+	return {
+		type: Action.Names.SEARCH,
+		payload: {
+			keyword 
+		}
+	};
+}
+
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
 	switch(action.type) {
 	case Action.Names.CHANGE_DISPLAY_STYLE:
@@ -106,6 +121,12 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		return {
 			...state,
 			dialogOpen: true
+		};
+	case Action.Names.SEARCH:
+		console.log(action.payload.keyword);
+		return {
+			...state,
+			search: action.payload.keyword
 		};
 	}
 	return state;
