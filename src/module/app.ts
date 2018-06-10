@@ -36,17 +36,22 @@ export interface ChangeFilterAction extends Redux.Action {
 	type: Action.Names.CHANGE_FILTER;
 	payload: {
 		filter: Store.Filter;
-		open: boolean;
 	}
 }
-export function changeFilter(filter: Store.Filter, open: boolean): ChangeFilterAction {
+export function changeFilter(filter: Store.Filter): ChangeFilterAction {
 	return ({
 		type: Action.Names.CHANGE_FILTER,
 		payload: {
 			filter,
-			open
 		}
 	});
+}
+
+export interface OpenFilterDialogAction extends Redux.Action {
+	type: Action.Names.OPEN_FILTER_DIALOG;
+}
+export function openFilterDialog(): OpenFilterDialogAction {
+	return {type: Action.Names.OPEN_FILTER_DIALOG};
 }
 
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
@@ -77,11 +82,24 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		}
 		return 	state;
 	case Action.Names.CHANGE_FILTER:
+		if (state.filter != action.payload.filter) {
+			return {
+				...state,
+				filter: action.payload.filter,
+				dialogOpen: false
+			};
+		}
+		else {
+			return {
+				...state,
+				dialogOpen: false
+			};
+		}
+	case Action.Names.OPEN_FILTER_DIALOG:
 		return {
 			...state,
-			filter: action.payload.filter,
-			dialogOpen: action.payload.open
-		}
+			dialogOpen: true
+		};
 	}
 	return state;
 }

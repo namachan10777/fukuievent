@@ -27,7 +27,7 @@ import * as AppModule from '../module/app';
 interface FilterDialogProps {
 	filter: Store.Filter;
 	open: boolean;
-	onClose: (filter: Store.Filter, open: boolean) => void;
+	onClose: (filter: Store.Filter) => void;
 }
 
 const styles = ({
@@ -65,10 +65,10 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 		};
 	}
 	handleOk() {
-		this.props.onClose(this.generateFilter(), false);
+		this.props.onClose(this.generateFilter());
 	}
 	handleCancel() {
-		this.props.onClose(this.props.filter, false);
+		this.props.onClose(this.props.filter);
 	}
 	genChangeHandler(name: string) {
 		switch(name) {
@@ -122,8 +122,8 @@ export default ReactRedux.connect(
 		open: state.dialogOpen
 	}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({
-		onClose: (filter: Store.Filter, open: boolean) => {
-			dispatch(AppModule.changeFilter(filter, open));
+		onClose: (filter: Store.Filter) => {
+			dispatch(AppModule.changeFilter(filter));
 		}
 	})
 )(withStyles(styles)(FilterDialogComponent));

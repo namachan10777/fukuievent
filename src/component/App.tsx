@@ -45,7 +45,7 @@ export interface AppProps {
 	changeDStyle: (style: Store.DisplayStyle) => void;
 	prevPage: () => void;
 	backPage: () => void;
-	changeFilter: (filter: Store.Filter, open: boolean) => void;
+	openFilterDialog: () => void;
 }
 
 const styles = {
@@ -69,7 +69,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X10)}>x10</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.X30)}>x30</Button>
 				<Button color='inherit' onClick={() => props.changeDStyle(Store.DisplayStyle.All)}>All</Button>
-				<Button color='inherit' onClick={() => props.changeFilter(props.state.filter, true)}>絞り込み</Button>
+				<Button color='inherit' onClick={() => props.openFilterDialog()}>絞り込み</Button>
 			</Toolbar>
 		</AppBar>);
 		let begin = props.state.dstyle * props.state.page;
@@ -103,8 +103,8 @@ export default ReactRedux.connect(
 		backPage: () => {
 			dispatch(AppModule.backPage());
 		},
-		changeFilter: (filter: Store.Filter, open: boolean) => {
-			dispatch(AppModule.changeFilter(filter, open));
+		openFilterDialog: () => {
+			dispatch(AppModule.openFilterDialog());
 		}
 	})
 )(AppComponent);
