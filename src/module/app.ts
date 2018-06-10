@@ -83,10 +83,17 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		return 	state;
 	case Action.Names.CHANGE_FILTER:
 		if (state.filter != action.payload.filter) {
+			let available = state
+				.infos
+				.filter(info => action.payload.filter.category.match({
+					Some: str => info.category == str,
+					None: () => true
+				}));
 			return {
 				...state,
 				filter: action.payload.filter,
-				dialogOpen: false
+				dialogOpen: false,
+				available: available
 			};
 		}
 		else {
