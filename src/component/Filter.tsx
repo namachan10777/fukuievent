@@ -82,7 +82,7 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 		const classes = this.props.classes;
 		let menuItems = Store
 			.categoryEntries
-			.map(category => (<MenuItem value={category}>{category}</MenuItem>));
+			.map((category, i) => (<MenuItem value={category} key={category+i}>{category}</MenuItem>));
 		return (
 			<Dialog
 				open={open}
