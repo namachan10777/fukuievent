@@ -66,7 +66,7 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		}
 		return state;
 	case Action.Names.PREV_PAGE:
-		if (state.page < Util.calcTotalPage(state.infos.length, state.dstyle)) {
+		if (state.page < Util.calcTotalPage(state.available.length, state.dstyle)) {
 			return ({
 				...state,
 				page: state.page+1

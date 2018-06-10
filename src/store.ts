@@ -62,6 +62,7 @@ export type State = {
 	search: Option<string>,
 	filter: Filter,
 	infos: EventInfo[],
+	available: EventInfo[]
 }
 
 function enumerateCategoly (infos: EventInfo[]) {
@@ -80,7 +81,8 @@ function initializeState (json: any) {
 		page: 0,
 		search: None,
 		filter: { category: None},
-		infos
+		infos: infos,
+		available: infos
 	});
 }
 

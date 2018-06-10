@@ -41,7 +41,9 @@ const theme = createMuiTheme ({
 });
 
 export interface AppProps {
-	state: Store.State;
+	dstyle: Store.DisplayStyle;
+	page: number;
+	available: Store.EventInfo[];
 	changeDStyle: (style: Store.DisplayStyle) => void;
 	prevPage: () => void;
 	backPage: () => void;
@@ -72,11 +74,10 @@ const AppComponent = withStyles(styles)<AppProps>(
 				<Button color='inherit' onClick={() => props.openFilterDialog()}>絞り込み</Button>
 			</Toolbar>
 		</AppBar>);
-		let begin = props.state.dstyle * props.state.page;
-		let end   = begin + props.state.dstyle;
+		let begin = props.dstyle * props.page;
+		let end   = begin + props.dstyle;
 		let tbl = props
-				.state
-				.infos
+				.available
 				.slice(begin, end)
 				.map(info => (<EventCard info={info} key={info.id} />));
 		return (
@@ -92,7 +93,11 @@ const AppComponent = withStyles(styles)<AppProps>(
 );
 
 export default ReactRedux.connect(
-	(state: Store.State) => ({state}),
+	(state: Store.State) => ({
+		available: state.available,
+		page: state.page,
+		dstyle: state.dstyle
+	}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({
 		changeDStyle: (style: Store.DisplayStyle) => {
 			dispatch(AppModule.changeDisplayStyle(style));
