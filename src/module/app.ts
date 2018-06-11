@@ -70,6 +70,15 @@ export function search(keyword: string): SearchAction {
 }
 
 export function reducer(state: Store.State = Store.initialState, action: Action.T) {
+	let applyFilter = (infos: Store.EventInfo[], filter: Store.Filter, keyword: string) =>
+		infos
+		.filter(info => filter.category.match({
+			Some: str => info.category == str,
+			None: () => true
+		}))
+		.map(info => new Store.CardSrc(info, keyword))
+		.filter(info => info.available);
+
 	switch(action.type) {
 	case Action.Names.CHANGE_DISPLAY_STYLE:
 		if (state.dstyle != action.payload.style) {
@@ -98,17 +107,11 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		return 	state;
 	case Action.Names.CHANGE_FILTER:
 		if (state.filter != action.payload.filter) {
-			let available = state
-				.infos
-				.filter(info => action.payload.filter.category.match({
-					Some: str => info.category == str,
-					None: () => true
-				}));
 			return {
 				...state,
 				filter: action.payload.filter,
 				dialogOpen: false,
-				available: available
+				available: applyFilter(state.infos, action.payload.filter, state.keyword)
 			};
 		}
 		else {
@@ -126,8 +129,8 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		console.log(action.payload.keyword);
 		return {
 			...state,
-			search: action.payload.keyword,
-			available: state.infos.map(info => new Store.CardSrc(info, action.payload.keyword)).filter(src => src.available),
+			keyword: action.payload.keyword,
+			available: applyFilter(state.infos, state.filter, action.payload.keyword),
 			page: 0
 		};
 	}

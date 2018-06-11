@@ -128,7 +128,7 @@ export type State = {
 	dialogOpen: boolean,
 	dstyle: DisplayStyle,
 	page: number,
-	search: string,
+	keyword: string,
 	filter: Filter,
 	infos: EventInfo[],
 	available: CardSrc[]
@@ -148,7 +148,7 @@ function initializeState (json: any) {
 		dialogOpen: false,
 		dstyle: DisplayStyle.X10,
 		page: 0,
-		search: '',
+		keyword: '',
 		filter: { category: None},
 		infos: infos,
 		available: infos.map(info => new CardSrc(info, ''))

@@ -97,8 +97,7 @@ export default ReactRedux.connect(
 	(state: Store.State) => ({
 		available: state.available,
 		page: state.page,
-		dstyle: state.dstyle,
-		keyword: state.search
+		dstyle: state.dstyle
 	}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({
 		changeDStyle: (style: Store.DisplayStyle) => {
