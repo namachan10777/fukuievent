@@ -26,7 +26,7 @@ import * as AppModule from '../module/app';
 
 export interface EventCardProps {
 	dstyle: Store.DisplayStyle;
-	info: Store.EventInfo;
+	src: Store.CardSrc;
 }
 
 const styles = {
@@ -73,33 +73,38 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 		const {classes} = props;
 		let googleMapUrl =
 			'https://maps.google.co.jp/maps?q='
-			+ props.info.event_place
+			+ props.src.originalEventPlace;
 			//+ props.info.position.latitude
 			//+ ','
 			//+ props.info.position.longitude;
+		let decorate = (src: Store.Token[]) =>
+			src.map((tkn, i) =>
+				tkn.tokenType == Store.TokenType.Plain ?
+					(<span key={tkn.text+i}>{tkn.text}</span>) :
+					(<span className='highlighted-keyword' key={tkn.text+i}>{tkn.text}</span>));
 		return (
 			<Card className='card'>
 				<CardContent>
 					<Typography className={classes.title}>
-						{props.info.name}
+						{decorate(props.src.title)}
 					</Typography>
 					<Typography className={classes.categoly} color='textSecondary'>
-						{props.info.category}
+						{decorate(props.src.category)}
 					</Typography>
 					<Typography className={classes.description}>
-						{props.info.description}
+						{decorate(props.src.description)}
 					</Typography>
 					<Typography className={classes.schedule_description}>
-						{props.info.schedule_description}
+						{decorate(props.src.scheduleDescription)}
 					</Typography>
 					<Typography className={classes.phoneNumber}>
-						{props.info.contact_phone_number}
+						{decorate(props.src.phoneNumber)}
 					</Typography>
 					<Typography className={classes.city}>
-						{props.info.city}
+						{decorate(props.src.city)}
 					</Typography>
 					<Typography className={classes.eventPlace}>
-						{props.info.event_place}
+						{decorate(props.src.eventPlace)}
 					</Typography>
 					<Button color='primary'href={googleMapUrl}>
 						地図で開く

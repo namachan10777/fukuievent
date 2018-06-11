@@ -126,7 +126,9 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 		console.log(action.payload.keyword);
 		return {
 			...state,
-			search: action.payload.keyword
+			search: action.payload.keyword,
+			available: state.infos.map(info => new Store.CardSrc(info, action.payload.keyword)).filter(src => src.available),
+			page: 0
 		};
 	}
 	return state;

@@ -43,7 +43,7 @@ const theme = createMuiTheme ({
 export interface AppProps {
 	dstyle: Store.DisplayStyle;
 	page: number;
-	available: Store.EventInfo[];
+	available: Store.CardSrc[];
 	changeDStyle: (style: Store.DisplayStyle) => void;
 	prevPage: () => void;
 	backPage: () => void;
@@ -80,7 +80,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 		let tbl = props
 				.available
 				.slice(begin, end)
-				.map(info => (<EventCard info={info} key={info.id} />));
+				.map(src => (<EventCard src={src} key={src.id} />));
 		return (
 			<MuiThemeProvider theme={theme}>
 				{appbar}
@@ -97,7 +97,8 @@ export default ReactRedux.connect(
 	(state: Store.State) => ({
 		available: state.available,
 		page: state.page,
-		dstyle: state.dstyle
+		dstyle: state.dstyle,
+		keyword: state.search
 	}),
 	(dispatch: Redux.Dispatch<Action.T>) => ({
 		changeDStyle: (style: Store.DisplayStyle) => {
