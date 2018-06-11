@@ -1,23 +1,20 @@
-.cards-row:after {
-	clear: both;
-	content: "";
-	display: table;
+body{
+	background-color: #BDBDBD;
 }
 
 .cards {
-	column-gap: 0;
 	column-count: 3;
-	padding: 1vw;
+	height: 100%;
+	width: 100%;
 	padding-top: 11vh;
-	background-color: #BDBDBD;
 }
 
 .card {
 	-webkit-column-break-inside: avoid;
 	page-break-inside: avoid;
 	break-inside: avoid;
-	width: 32vw;
-	margin: 1vw;
+	width: 100%;
+	margin-bottom: 3vh;
 }
 
 .card-title {
@@ -38,7 +35,7 @@
 
 .open-in-map {
 	float: right;
-	margin-bottom: 3vh;
+	margin-bottom: 2vh;
 }
 
 .highlighted-keyword {
