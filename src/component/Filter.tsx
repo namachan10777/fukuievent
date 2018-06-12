@@ -204,7 +204,7 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 							</Select>
 						</FormControl>
 						<FormControl className={classes.formControl}>
-							<InputLabel htmlFor='city'>場所</InputLabel>
+							<InputLabel htmlFor='city'>地域</InputLabel>
 							<Select
 								value={this.state.value.city}
 								onChange={(e: any) => this.handleCityChange(e)}
