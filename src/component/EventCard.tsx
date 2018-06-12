@@ -35,7 +35,7 @@ const styles = {
 		marginBottom: '2vh'
 	},
 	categoly: {
-		fontSize: 12,
+		fontSize: 13,
 		marginBottom: '2vh'
 	},
 	eventPlace: {
@@ -63,6 +63,11 @@ const styles = {
 	},
 	openInMapContainer: {
 		marginRight: 0,
+	},
+	annot: {
+		fontSize: 13,
+		marginRight: '1vw',
+		color: '#757575'
 	}
 };
 
@@ -98,13 +103,13 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 						{decorate(props.src.scheduleDescription)}
 					</Typography>
 					<Typography className={classes.phoneNumber}>
-						{decorate(props.src.phoneNumber)}
+						<span className={classes.annot}>電話番号</span>{decorate(props.src.phoneNumber)}
 					</Typography>
 					<Typography className={classes.city}>
-						{decorate(props.src.city)}
+						<span className={classes.annot}>地域</span>{decorate(props.src.city)}
 					</Typography>
 					<Typography className={classes.eventPlace}>
-						{decorate(props.src.eventPlace)}
+						<span className={classes.annot}>場所</span>{decorate(props.src.eventPlace)}
 					</Typography>
 					<Button color='primary'href={googleMapUrl}>
 						地図で開く
