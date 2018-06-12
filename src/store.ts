@@ -173,3 +173,28 @@ export const initialState = initializeState(json_file);
 export const categoryEntries = enumerateCategoly(infos);
 export const eventPlaceEntries = enumerateEventPlace(infos);
 export const cityEntries = enumerateCity(infos);
+
+export function solveFilters(filter: { category: Option<string>; city: Option<string>; eventPlace: Option<string>}) {
+	let available = infos
+		.filter(info => filter.category.match({
+			Some :x => info.category == x,
+			None :() => true
+		}))
+		.filter(info => filter.city.match({
+			Some: x => info.city == x,
+			None: () => true
+		}))	
+		.filter(info => filter.eventPlace.match({
+			Some: x => info.event_place == x,
+			None: () => true
+		}));
+	let uniq = (arr: any) => arr.filter((x: any, i: any, self: any) => self.indexOf(x) === i);
+	let categories = uniq(available.map(info => info.category));
+	let cities = uniq(available.map(info => info.city));
+	let eventPlacies = uniq(available.map(info => info.event_place));
+	return {
+		categories,
+		cities,
+		eventPlacies
+	};
+}

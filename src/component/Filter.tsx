@@ -46,10 +46,18 @@ type ClassNames = keyof typeof styles;
 
 class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyles<ClassNames>> {
 	state: {
-		category: string;
-		city: string;
-		eventPlace: string;
+		value: {
+			category: string;
+			city: string;
+			eventPlace: string;
+		},
+		candidates: {
+			category: string[];
+			city: string[];
+			eventPlace: string[];
+		}
 	}
+
 	constructor(props: FilterDialogProps & WithStyles<ClassNames>) {
 		super(props);
 		let category = props.filter.category.match({
@@ -64,12 +72,43 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 			Some: x => x,
 			None: () => ''
 		});
-		this.state = {category, eventPlace, city};
+		let value = {category, eventPlace, city};
+
+		let categoryCand = Store.solveFilters({
+			category: None,
+			city: props.filter.city,
+			eventPlace: props.filter.eventPlace
+		});
+		let cityCand = Store.solveFilters({
+			category: props.filter.category,
+			city: None,
+			eventPlace: None, 
+		});
+		let eventPlaceCand = Store.solveFilters({
+			category: props.filter.category,
+			city: props.filter.city,
+			eventPlace: None 
+		});
+		let candidates = {
+			category: categoryCand.categories,
+			eventPlace: eventPlaceCand.eventPlacies,
+			city: cityCand.cities
+		};
+
+		this.state = {
+			value,
+			candidates
+		};
 	}
+	
+	toOpt(str: string) {
+		return str == '' ? None : Option(str);
+	}
+
 	generateFilter() {
-		let category = this.state.category === '' ? None : Option(this.state.category);
-		let eventPlace = this.state.eventPlace === '' ? None : Option(this.state.eventPlace);
-		let city = this.state.city === '' ? None : Option(this.state.city);
+		let category = this.toOpt(this.state.value.category);
+		let eventPlace = this.toOpt(this.state.value.eventPlace);
+		let city = this.toOpt(this.state.value.city);
 		return {
 			...this.props.filter,
 			category,
@@ -83,22 +122,64 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 	handleCancel() {
 		this.props.onClose(this.props.filter);
 	}
-	genChangeHandler(name: string) {
-		switch(name) {
-		case 'category':
-			return (e: any) => this.setState({category: e.target.value});
-		case 'eventPlace':
-			return (e: any) => this.setState({eventPlace: e.target.value});
-		case 'city':
-			return (e: any) => this.setState({city: e.target.value});
-		}
-		return (e: any) => {};
+	// cityが変更されたときだけ、eventPlaceは強制的に変更される
+	// cityはeventPlaceに拘束されないが、それ以外は互いに拘束される。
+	handleCityChange(e: any) {
+		// cityが変更されたのでeventPlaceを再計算
+		// categoryは変更されない
+		let city = this.toOpt(e.target.value);
+		let cand = Store.solveFilters({category: this.toOpt(this.state.value.category), city, eventPlace: None});
+		this.setState({
+			value: {
+				...this.state.value,
+				city: e.target.value,
+				eventPlace: ''
+			},
+			candidates: {
+				...this.state.candidates,
+				eventPlace: cand.eventPlacies,
+				category: cand.categories
+			}
+		});
+	}
+	handleEventPlaceChange(e: any) {
+		// eventPlaceが変更されたので、categoryを再計算
+		// cityは変更されない
+		let eventPlace = this.toOpt(e.target.value);
+		let cand = Store.solveFilters({category: this.toOpt(this.state.value.category), city: this.toOpt(this.state.value.city), eventPlace});
+		this.setState({
+			value: {
+				...this.state.value,
+				eventPlace: e.target.value
+			},
+			candidates: {
+				...this.state.candidates,
+				category: cand.categories,
+			}
+		});
+	}
+	handleCategoryChange(e: any) {
+		let category = this.toOpt(e.target.value);
+		let cand = Store.solveFilters({category, city: this.toOpt(this.state.value.city), eventPlace: this.toOpt(this.state.value.eventPlace)});
+		let cityCand = Store.solveFilters({category, city: None, eventPlace: this.toOpt(this.state.value.eventPlace)});
+		this.setState({
+			value: {
+				...this.state.value,
+				category: e.target.value
+			},
+			candidates: {
+				...this.state.candidates,
+				category: cand.categories,
+				city: cityCand.cities
+			}
+		});
 	}
 	render() {
 		const {onClose, filter, open, ...other} = this.props;
 		const classes = this.props.classes;
 		let genMenuItems = (entries: string[]) =>
 			entries.map((entry, i) => (<MenuItem value={entry} key={entry+i}>{entry}</MenuItem>));
+		console.log(this.state.candidates);
 		return (
 			<Dialog
 				open={open}
@@ -114,31 +195,31 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 						<FormControl className={classes.formControl}>
 							<InputLabel htmlFor='category'>カテゴリ</InputLabel>
 							<Select
-								value={this.state.category}
-								onChange={this.genChangeHandler('category')}
+								value={this.state.value.category}
+								onChange={(e: any) => this.handleCategoryChange(e)}
 								input={<Input id='category' />}>
 								<MenuItem value=''><em>全て</em></MenuItem>
-								{genMenuItems(Store.categoryEntries)}
+								{genMenuItems(this.state.candidates.category)}
 							</Select>
 						</FormControl>
 						<FormControl className={classes.formControl}>
 							<InputLabel htmlFor='city'>場所</InputLabel>
 							<Select
-								value={this.state.city}
-								onChange={this.genChangeHandler('city')}
+								value={this.state.value.city}
+								onChange={(e: any) => this.handleCityChange(e)}
 								input={<Input id='city' />}>
 								<MenuItem value=''><em>全て</em></MenuItem>
-								{genMenuItems(Store.cityEntries)}
+								{genMenuItems(this.state.candidates.city)}
 							</Select>
 						</FormControl>
 						<FormControl className={classes.formControl}>
 							<InputLabel htmlFor='eventPlace'>場所</InputLabel>
 							<Select
-								value={this.state.eventPlace}
-								onChange={this.genChangeHandler('eventPlace')}
+								value={this.state.value.eventPlace}
+								onChange={(e: any) => this.handleEventPlaceChange(e)}
 								input={<Input id='eventPlace' />}>
 								<MenuItem value=''><em>全て</em></MenuItem>
-								{genMenuItems(Store.eventPlaceEntries)}
+								{genMenuItems(this.state.candidates.eventPlace)}
 							</Select>
 						</FormControl>
 					</form>
