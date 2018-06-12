@@ -111,7 +111,7 @@ const EventCardComponent = withStyles(styles)<EventCardProps>(
 					<Typography className={classes.eventPlace}>
 						<span className={classes.annot}>場所</span>{decorate(props.src.eventPlace)}
 					</Typography>
-					<Button color='primary'href={googleMapUrl}>
+					<Button color='primary' href={googleMapUrl} target='_blank'>
 						地図で開く
 					</Button>
 				</CardContent>
