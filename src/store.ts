@@ -122,6 +122,8 @@ export class CardSrc {
 
 export type Filter = {
 	category: Option<string>;
+	eventPlace: Option<string>;
+	city: Option<string>;
 }
 
 export type State = {
@@ -140,6 +142,18 @@ function enumerateCategoly (infos: EventInfo[]) {
 		.filter((x, i, self) => self.indexOf(x) === i);
 }
 
+function enumerateEventPlace (infos: EventInfo[]) {
+	return infos
+		.map(info => info.event_place)
+		.filter((x, i, self) => self.indexOf(x) === i);
+}
+
+function enumerateCity (infos: EventInfo[]) {
+	return infos
+		.map(info => info.city)
+		.filter((x, i, self) => self.indexOf(x) === i);
+}
+
 const json_file = JSON.parse(require('raw-loader!../data/fukui-event.txt'));
 const infos: EventInfo[] = json_file.map((member: any, i: number) => new EventInfo(member, i));
 
@@ -149,7 +163,7 @@ function initializeState (json: any) {
 		dstyle: DisplayStyle.X10,
 		page: 0,
 		keyword: '',
-		filter: { category: None},
+		filter: { category: None, eventPlace: None, city: None},
 		infos: infos,
 		available: infos.map(info => new CardSrc(info, ''))
 	});
@@ -157,3 +171,5 @@ function initializeState (json: any) {
 
 export const initialState = initializeState(json_file);
 export const categoryEntries = enumerateCategoly(infos);
+export const eventPlaceEntries = enumerateEventPlace(infos);
+export const cityEntries = enumerateCity(infos);

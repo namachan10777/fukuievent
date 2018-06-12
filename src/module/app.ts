@@ -76,6 +76,14 @@ export function reducer(state: Store.State = Store.initialState, action: Action.
 			Some: str => info.category == str,
 			None: () => true
 		}))
+		.filter(info => filter.eventPlace.match({
+			Some: str => info.event_place == str,
+			None: () => true
+		}))
+		.filter(info => filter.city.match({
+			Some: str => info.city== str,
+			None: () => true
+		}))
 		.map(info => new Store.CardSrc(info, keyword))
 		.filter(info => info.available);
 
