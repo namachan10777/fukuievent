@@ -35,7 +35,7 @@ export class EventInfo {
 		this.name = raw.event_name;
 		this.category = raw.category;
 		this.description = raw.description;
-		this.schedule_description = raw.description;
+		this.schedule_description = raw.schedule_description;
 		this.contact = raw.contact;
 		this.contact_phone_number = raw.contact_phone_number;
 		this.event_place = raw.event_place;
