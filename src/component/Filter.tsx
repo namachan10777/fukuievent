@@ -181,7 +181,6 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 		const classes = this.props.classes;
 		let genMenuItems = (entries: string[]) =>
 			entries.map((entry, i) => (<MenuItem value={entry} key={entry+i}>{entry}</MenuItem>));
-		console.log(this.state.candidates);
 		return (
 			<Dialog
 				open={open}
