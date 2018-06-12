@@ -123,7 +123,7 @@ const AppComponent = withStyles(styles)<AppProps>(
 			<MuiThemeProvider theme={theme}>
 				{appbar}
 				<FilterDialog/>
-				<div className='cards'>
+				<div className={props.dstyle == Store.DisplayStyle.X10 ? 'cards-x10' : 'cards'}>
 					{tbl}
 				</div>
 			</MuiThemeProvider>
