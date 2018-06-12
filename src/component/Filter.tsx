@@ -161,7 +161,8 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 	handleCategoryChange(e: any) {
 		let category = this.toOpt(e.target.value);
 		let cand = Store.solveFilters({category, city: this.toOpt(this.state.value.city), eventPlace: this.toOpt(this.state.value.eventPlace)});
-		let cityCand = Store.solveFilters({category, city: None, eventPlace: this.toOpt(this.state.value.eventPlace)});
+		let cityCand = Store.solveFilters({category, city: None, eventPlace: None});
+		let eventPlaceCand = Store.solveFilters({category, city: this.toOpt(this.state.value.city), eventPlace: None});
 		this.setState({
 			value: {
 				...this.state.value,
@@ -170,7 +171,8 @@ class FilterDialogComponent extends React.Component<FilterDialogProps & WithStyl
 			candidates: {
 				...this.state.candidates,
 				category: cand.categories,
-				city: cityCand.cities
+				city: cityCand.cities,
+				eventPlace: eventPlaceCand.eventPlacies
 			}
 		});
 	}
