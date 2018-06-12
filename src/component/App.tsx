@@ -119,13 +119,22 @@ const AppComponent = withStyles(styles)<AppProps>(
 				.available
 				.slice(begin, end)
 				.map(src => (<EventCard src={src} key={src.id} />));
+		let cardsStyleName;
+		let mainContents;
+		if (tbl.length == 0) {
+			mainContents = (<div className='empty'><span className='empty-text'>検索結果はありません</span></div>);
+		}
+		else if (props.dstyle == Store.DisplayStyle.X10) {
+			mainContents = (<div className='cards-x10'>{tbl}</div>)
+		}
+		else {
+			mainContents = (<div className='cards'>{tbl}</div>)
+		}
 		return (
 			<MuiThemeProvider theme={theme}>
 				{appbar}
 				<FilterDialog/>
-				<div className={props.dstyle == Store.DisplayStyle.X10 ? 'cards-x10' : 'cards'}>
-					{tbl}
-				</div>
+				{mainContents}
 			</MuiThemeProvider>
 		);
 	}

@@ -17,6 +17,19 @@ body{
 	margin-bottom: 3vh;
 }
 
+.empty {
+	height: 100%;
+	width: 100%;
+	margin-top: 35vh;
+	padding-top: 11vh;
+	text-align: center;
+}
+
+.empty-text {
+	color: #212121;
+	font-size: xx-large;
+}
+
 .cards-x10 {
 	column-count: 2;
 	height: 100%;
